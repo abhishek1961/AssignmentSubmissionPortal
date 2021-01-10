@@ -43,7 +43,7 @@ function Signin(){
          
           authenticate(data,()=>{
             setValues({...values,email:"",password:"",error:"",success:true})
-            setTimeout(()=>{setValues({...values,didRedirect:true})},2000)
+            setTimeout(()=>{setValues({...values,didRedirect:true})},500)
             
 
           })

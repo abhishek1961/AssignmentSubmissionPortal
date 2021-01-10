@@ -1,0 +1,27 @@
+#The App divided in to two directory Fronend and backend fro the Same
+#App uses Nodejs expressjs in backend and frontend build on Reactjs
+
+1. Insatall packages of both frontend and backend 
+
+2.Default posts and base path
+    Backend:http://loacalhost/8000 can change from .env file in backend dorectory
+    Frontend:http://loacalhost/3000
+
+3.  configuration files and path
+    backend/.env  (backend)
+    backend/config.js  (backend)
+    frontend/src/backenduri.js (frontend)
+
+4.After running the server the base url redirected to the Login packages
+
+5.For signup a link provided in login page for user registration 
+
+6.One can Register as Instructor or Student,
+
+7.Instructor Can add or Select subjects from the Registration page. There is no option provided to add 
+or select subjects after Registration
+
+8. After Registration User can login and will redirect to their respective Dashboard to Perform actions 
+
+9. Page Links provided on the left side nav bar 
+

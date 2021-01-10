@@ -10,6 +10,9 @@ exports.signup=(req,res)=>{
     }
     
     const user=new User(req.body)
+    if(user.role==0){
+        user.subjects=[]
+    }
 
     user.save((err,user)=>{
         if(err){
@@ -29,7 +32,7 @@ exports.signin=(req,res)=>{
     }
 
 
-    User.findOne({email},(err,user)=>{console.log(password)
+    User.findOne({email},(err,user)=>{
         if(err || !user){
             return res.json({error:"User not found"})
         }

@@ -159,26 +159,29 @@ function AllSubmissions(){
                 </thead>
                 <tbody>
                 {submissions.map((submission,index)=>{
-                    return(
-                        <tr key={index}>
-                        <th scope="row">{index+1}</th>
-                        <td>{submission.assignment.name}</td>
-                        <td>{submission.assignment.subject.name}</td>
-                        <td>{submission.submittedBy.name}</td>
-                        <td>{new Date(submission.onTime).toLocaleString('en-GB', { timeZone: 'Asia/Calcutta' })}</td>
-                        <td>
-                            <a href={API+'/get-file/'+submission.assignment.filname} target='_blank'>View Assignment</a>
-                        </td>
-                        <td>
-                        <a href={API+'/get-file/'+submission.filname} target='_blank'>View Submission</a>
-                         </td>
-                        <td>{submission.grade}</td>
-                        <td>
-                        <Button  className='btn-success ml-3' onClick={()=>openSub(submission._id)}>Update</Button>
-                        </td>
-
-                        </tr>
-                        )
+                    if(submission.assignment.createdBy!==null){
+                        return(
+                            <tr key={index}>
+                            <th scope="row">{index+1}</th>
+                            <td>{submission.assignment.name}</td>
+                            <td>{submission.assignment.subject.name}</td>
+                            <td>{submission.submittedBy.name}</td>
+                            <td>{new Date(submission.onTime).toLocaleString('en-GB', { timeZone: 'Asia/Calcutta' })}</td>
+                            <td>
+                                <a href={API+'/get-file/'+submission.assignment.filname} target='_blank'>View Assignment</a>
+                            </td>
+                            <td>
+                            <a href={API+'/get-file/'+submission.filname} target='_blank'>View Submission</a>
+                             </td>
+                            <td>{submission.grade}</td>
+                            <td>
+                            <Button  className='btn-success ml-3' onClick={()=>openSub(submission._id)}>Update</Button>
+                            </td>
+    
+                            </tr>
+                            )
+                    }
+                    
                 })}
                 </tbody>
             </table>

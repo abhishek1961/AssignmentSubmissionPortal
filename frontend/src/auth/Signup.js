@@ -1,6 +1,6 @@
 import React,{useState,useEffect} from 'react'
 
-import {Link} from 'react-router-dom'
+import {Link,Redirect} from 'react-router-dom'
 
 import {getAllSubjects,signup,addSubjectapi} from './helper/authapicall'
 
@@ -15,10 +15,12 @@ function Signup(){
         success:false,
         loading:false,
         allSubjects:[],
-        addSub:''
+        addSub:'',
+        didRedirect:false,
+        flag:0
     })
 
-    const {name,email,password,role,subjects,error,success,allSubjects,addSub}=values
+    const {name,email,password,role,subjects,error,success,allSubjects,addSub,didRedirect,flag}=values
 
     const handleChange=name=>event=>{
       if(name=='subjects'){
@@ -36,7 +38,7 @@ function Signup(){
     const onSubmit=event=>{
       event.preventDefault()
       setValues({...values,error:false,loading:true})
-     
+           
       signup({name,email,password,role,subjects})
       .then(data=>{
         if(data.error){
@@ -44,37 +46,41 @@ function Signup(){
         }
         else{
           setValues({...values,name:"",email:"",password:"",error:"",role:0,subjects:[],success:true})
+          setTimeout(()=>{setValues({...values,didRedirect:true})},500)
         }
       })
       .catch(console.log('error in sign un'))
     }
 
+    const performRedirect=()=>{
+      if(didRedirect){
+        return <Redirect to='/'/>
+      }
+  }
+
    const loadSub=()=>{
-    getAllSubjects().then(data=>{ console.log(data.subjects)
+    getAllSubjects().then(data=>{ 
       setValues({...values,allSubjects:data.subjects})
     })
    }
 
     useEffect(()=>{
       //get subjects
-      if(role==1){
+     
         loadSub(getAllSubjects())
-      }
-      else if(role==0){
-      setValues({...values,subjects:[]})
-        
-      }
+     
       
-  },[role])
+  },[flag])
 
-  const addSubject=(addSub)=>{
+  const addSubject=event=>{
+    event.preventDefault()
     addSubjectapi({name:addSub}).then(
       data=>{console.log(data)
         if(data.error){
-          setValues({...values,role:1})
+          setValues({...values,role:1,error:data.error})
         }
         else{
-          setValues({...values,addSub:'',role:1})
+          setValues({...values,addSub:'',role:1,flag:!flag})
         }
       }
     )
@@ -120,10 +126,11 @@ function Signup(){
                       )
                     })}                 
                   </select>
+                  <p className='text-danger'>Press and Hold Ctrl to select multiple</p>
                 </div>
                 <div className="form-group my-2 d-flex">
                 <input className="form-control" placeholder='Add New Subject' type="text" value={addSub} onChange={handleChange('addSub')}/>
-                <button className='btn btn-success ml-2'  onClick={()=>{addSubject(addSub)}}><i className="fa fa-check" aria-hidden="true"></i></button>
+                <button className='btn btn-success ml-2'  onClick={addSubject}><i className="fa fa-plus" aria-hidden="true"></i></button>
                 </div>
                 </>
                     )
@@ -163,7 +170,7 @@ function Signup(){
             {successMessage()}
             {errorMessage()}
             {signupForm()}
-            
+            {performRedirect()}
           </div>
         </div>
     )
