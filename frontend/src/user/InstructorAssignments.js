@@ -24,7 +24,13 @@ function InstructorAssignments(){
         assignments:[]
     })
 
-    const {name,subjects,deadline,subject,error,success,loading,formData,assignments}=values
+    const [list,setList]=useState({
+      assignments:[]
+    })
+
+    const {name,subjects,deadline,subject,error,success,loading,formData}=values
+    const {assignments}=list
+
     const user=isAuthenticated()
 
     const handleChange=name=>event=>{
@@ -75,10 +81,10 @@ function InstructorAssignments(){
     const loadAssignments=()=>{
         getInstructorAssign(user.userId,user.token).then(data=>{
             if(data.error){
-                setValues({...values,error:data.error})
+               
             }
             else{
-                setValues({...values,assignments:data.assignments})
+              setList({...list,assignments:data.assignments})
                 
             }
         })
