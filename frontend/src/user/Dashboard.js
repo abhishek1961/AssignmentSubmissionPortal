@@ -58,7 +58,7 @@ function Dashboard({title='Dashboard',children,history}){
                  
              </ul>
             </div>
-            <div className='wd-85cent pt-5'>
+            <div className='wd-85cent p-4'>
                 {children}
             </div>
         </div>
