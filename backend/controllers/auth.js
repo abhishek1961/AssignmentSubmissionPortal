@@ -13,6 +13,9 @@ exports.signup=(req,res)=>{
     if(user.role==0){
         user.subjects=[]
     }
+    if(user.role==1 && user.subjects.length==0){
+        return res.json({error:'Please select atleast one subject'})
+    }
 
     user.save((err,user)=>{
         if(err){
